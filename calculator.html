@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculator</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(120deg, #34e89e, #0f3443);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .calculator {
+      width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .calculator-heading {
+      color: #fff;
+      margin-top: 20px;
+    }
+
+    .screen {
+      background-color: #333;
+      color: #fff;
+      padding: 10px;
+      text-align: right;
+      font-size: 1.5em;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      padding: 10px;
+    }
+
+    button {
+      padding: 20px;
+      font-size: 1.2em;
+      border: none;
+      background-color: #4caf50;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    button.operator {
+      background-color: #ff8c00;
+    }
+
+    button.operator:hover {
+      background-color: #e07b00;
+    }
+
+    button.double {
+      grid-column: span 2;
+    }
+
+    button.double.operator {
+      background-color: #ff8c00;
+    }
+  </style>
+</head>
+<body>
+
+<div class="calculator">
+  <h2 class="calculator-heading">Calculator</h2>
+  <div class="screen" id="screen"></div>
+  <div class="buttons">
+    <button onclick="appendCharacter('7')">7</button>
+    <button onclick="appendCharacter('8')">8</button>
+    <button onclick="appendCharacter('9')">9</button>
+    <button onclick="appendCharacter('4')">4</button>
+    <button onclick="appendCharacter('5')">5</button>
+    <button onclick="appendCharacter('6')">6</button>
+    <button onclick="appendCharacter('1')">1</button>
+    <button onclick="appendCharacter('2')">2</button>
+    <button onclick="appendCharacter('3')">3</button>
+    <button onclick="appendCharacter('0')">0</button>
+    <button onclick="clearScreen()">C</button>
+    <button onclick="appendOperator('/')">/</button>
+    <button onclick="appendOperator('*')">*</button>
+    <button onclick="appendOperator('-')">-</button>
+    <button onclick="appendOperator('+')">+</button>
+    <button onclick="calculate()">=</button>
+    <button onclick="appendOperator('.')">.</button>
+  </div>
+</div>
+
+<script>
+  let expression = "";
+  let screen = document.getElementById("screen");
+
+  function clearScreen() {
+    expression = "";
+    updateScreen();
+  }
+
+  function appendCharacter(char) {
+    expression += char;
+    updateScreen();
+  }
+
+  function appendOperator(operator) {
+    if (expression !== "" && !isOperator(expression[expression.length - 1])) {
+      expression += operator;
+      updateScreen();
+    }
+  }
+
+  function calculate() {
+    try {
+      let result = eval(expression);
+      expression = result.toString();
+      updateScreen();
+    } catch (error) {
+      expression = "Error";
+      updateScreen();
+    }
+  }
+
+  function isOperator(char) {
+    return ["+", "-", "*", "/"].includes(char);
+  }
+
+  function updateScreen() {
+    screen.textContent = expression;
+  }
+</script>
+
+</body>
+</html>
